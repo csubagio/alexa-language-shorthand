@@ -5,8 +5,6 @@ const uterranceAlternate_1 = require("./uterranceAlternate");
 const utteranceSlot_1 = require("./utteranceSlot");
 const utteranceText_1 = require("./utteranceText");
 class UtteranceSequence {
-    get isEmpty() { return this.parts.length === 0; }
-    ;
     constructor(pc, intent, text) {
         this.pc = pc;
         this.intent = intent;
@@ -16,6 +14,8 @@ class UtteranceSequence {
             this.parse(text);
         }
     }
+    get isEmpty() { return this.parts.length === 0; }
+    ;
     pushText(text) {
         text = text.trim();
         if (text.length === 0) {

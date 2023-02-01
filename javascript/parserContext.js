@@ -25,6 +25,10 @@ function logList(list, color, singular, plural) {
     list.sort((a, b) => b.lineNumber - a.lineNumber);
     list.forEach(l => console.error(color(`[${l.lineNumber + 1}] ${l.text}`)));
 }
+/**
+ * ParserContext is passed down to child objects during parsing
+ * to describe position, and collect warnings and errors
+ */
 class ParserContext {
     constructor() {
         this.lineNumber = 0;

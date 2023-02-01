@@ -49,7 +49,7 @@ class Model {
         else {
             console.log(chalk_1.default.red(`*** invocation: ${errorInvocationString} ***`));
         }
-        console.log(chalk_1.default.green(`${Object.keys(this.slotTypes).length} slotTypes ${Object.keys(this.intents).length} intents ${this.countAllUtteranceVariations()} utterances`));
+        console.log(chalk_1.default.green(`${Object.keys(this.slotTypes).length} slotType(s) ${Object.keys(this.intents).length} intent(s) ${this.countAllUtteranceVariations()} utterance(s)`));
     }
     validate() {
         for (let name in this.intents) {

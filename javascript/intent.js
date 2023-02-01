@@ -18,7 +18,7 @@ class IntentSlotInfo {
         this.lineNumber = pc.lineNumber;
     }
     logSummary() {
-        console.log(`     slot ${chalk_1.default.greenBright(this.name)} : ${chalk_1.default.cyan(this.type)}`);
+        console.log(`  slot ${chalk_1.default.greenBright(this.name)} is ${chalk_1.default.cyan(this.type)}`);
     }
     toASKIntentSlot() {
         return {
@@ -53,7 +53,7 @@ class Intent {
         this.utterances.push(new utterance_1.Utterance(this.pc, this, line));
     }
     logSummary() {
-        console.log(`INTENT ${chalk_1.default.cyan(this.name)} ${this.countAllUtteranceVariations()} utterances`);
+        console.log(`INTENT ${chalk_1.default.cyan(this.name)}, ${this.countAllUtteranceVariations()} utterances`);
         for (let n in this.slotsTypes) {
             this.slotsTypes[n].logSummary();
         }

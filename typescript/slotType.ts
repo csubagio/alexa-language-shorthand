@@ -24,9 +24,9 @@ export class SlotValue {
   
   logSummary() {
     if ( this.synonyms.length > 0 ) {
-      console.log(`    ${chalk.yellow(this.name)} or ${this.synonyms.join('/')}`);
+      console.log(`  ${chalk.yellow(this.name)} or ${this.synonyms.join('/')}`);
     } else {
-      console.log(`    ${chalk.yellow(this.name)}`);
+      console.log(`  ${chalk.yellow(this.name)}`);
     }
   }
   
@@ -77,7 +77,7 @@ export class SlotType {
   }
   
   logSummary() {
-    console.log(`SLOT TYPE  ${chalk.cyan(this.name)}`);
+    console.log(`SLOTTYPE ${chalk.cyan(this.name)}, ${Object.keys(this.values).length} values`);
     for ( let name in this.values ) {
       this.values[name].logSummary();
     }

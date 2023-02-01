@@ -54,7 +54,7 @@ export class Model {
       console.log(chalk.red(`*** invocation: ${errorInvocationString} ***`));
     }
 
-    console.log(chalk.green(`${Object.keys(this.slotTypes).length} slotTypes ${Object.keys(this.intents).length} intents ${this.countAllUtteranceVariations()} utterances`));
+    console.log(chalk.green(`${Object.keys(this.slotTypes).length} slotType(s) ${Object.keys(this.intents).length} intent(s) ${this.countAllUtteranceVariations()} utterance(s)`));
   }
   
   validate() {

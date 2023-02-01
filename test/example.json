@@ -1,0 +1,58 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "favorite color",
+            "intents": [
+                {
+                    "name": "FavoriteColor",
+                    "samples": [
+                        "my best color is {aColor}",
+                        "our best color is {aColor}",
+                        "my favorite color is {aColor}",
+                        "our favorite color is {aColor}"
+                    ],
+                    "slots": [
+                        {
+                            "name": "aColor",
+                            "type": "Color"
+                        }
+                    ]
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                }
+            ],
+            "types": [
+                {
+                    "name": "Color",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "red"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "blue"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "green"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

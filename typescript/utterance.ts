@@ -19,7 +19,7 @@ export class Utterance {
   
   logSummary(): void {
     if ( this.alternateCount > 1 ) {
-      console.log(`  ${this.root.summary()} (x ${this.alternateCount})`);
+      console.log(`  ${this.root.summary()} (x${this.alternateCount})`);
     } else {
       console.log(`  ${this.root.summary()}`);
     }

@@ -18,7 +18,7 @@ export class IntentSlotInfo {
   }
   
   logSummary() {
-    console.log(`     slot ${chalk.greenBright(this.name)} : ${chalk.cyan(this.type)}`);
+    console.log(`  slot ${chalk.greenBright(this.name)} is ${chalk.cyan(this.type)}`);
   }
   
   toASKIntentSlot(): ASKIntentSlot {
@@ -57,7 +57,7 @@ export class Intent {
   }
   
   logSummary() {
-    console.log(`INTENT ${chalk.cyan(this.name)} ${this.countAllUtteranceVariations()} utterances`);
+    console.log(`INTENT ${chalk.cyan(this.name)}, ${this.countAllUtteranceVariations()} utterances`);
     for ( let n in this.slotsTypes ) {
       this.slotsTypes[n].logSummary();
     }
