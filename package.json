@@ -1,0 +1,25 @@
+{
+  "name": "alexa-language-shorthand",
+  "version": "0.1.0",
+  "description": "Provides a utility that generates Alexa ASK language model files from an alternative compact notation",
+  "scripts": {
+    "test-watch": "ts-mocha ./test/*.spec.ts -w --watch-files '**/*.ts'",
+    "test": "ts-mocha ./test/*.spec.ts",
+    "build": "tsc"
+  },
+  "bin": {
+    "alexa-language-shorthand": "javascript/index.js"
+  },
+  "author": "Chris Subagio",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.11.18",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^4.9.5"
+  }
+}

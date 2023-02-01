@@ -1,0 +1,76 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "hello world",
+            "intents": [
+                {
+                    "name": "Hello",
+                    "samples": [
+                        "good morning you",
+                        "good afternoon you",
+                        "good evening you",
+                        "good day you",
+                        "hello you",
+                        "hi you",
+                        "yo you",
+                        "good morning y'all",
+                        "good afternoon y'all",
+                        "good evening y'all",
+                        "good day y'all",
+                        "hello y'all",
+                        "hi y'all",
+                        "yo y'all",
+                        "good morning friend",
+                        "good afternoon friend",
+                        "good evening friend",
+                        "good day friend",
+                        "hello friend",
+                        "hi friend",
+                        "yo friend",
+                        "good morning bud",
+                        "good afternoon bud",
+                        "good evening bud",
+                        "good day bud",
+                        "hello bud",
+                        "hi bud",
+                        "yo bud",
+                        "good morning guy",
+                        "good afternoon guy",
+                        "good evening guy",
+                        "good day guy",
+                        "hello guy",
+                        "hi guy",
+                        "yo guy",
+                        "good morning dude",
+                        "good afternoon dude",
+                        "good evening dude",
+                        "good day dude",
+                        "hello dude",
+                        "hi dude",
+                        "yo dude",
+                        "good morning",
+                        "good afternoon",
+                        "good evening",
+                        "good day",
+                        "hello",
+                        "hi",
+                        "yo"
+                    ]
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
