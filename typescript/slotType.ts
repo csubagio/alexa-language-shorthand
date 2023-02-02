@@ -45,7 +45,7 @@ export class SlotValue {
   }
   
   getRandom(): string {
-    if ( this.synonyms.length === 0 || Math.random() * this.synonyms.length < 1 ) {
+    if ( this.synonyms.length === 0 || Math.random() * (1+this.synonyms.length) < 1 ) {
       return this.name;
     }
     
