@@ -1,8 +1,8 @@
 {
   "name": "alexa-language-shorthand",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Provides a utility that generates Alexa ASK language model files from an alternative compact notation",
-  "homepage": "https://github.com/csubagio/alexa-language-shorthand",
+  "homepage": "https://csubagio.github.io/alexa-language-shorthand/",
   "repository": {
     "type": "git",
     "url": "https://github.com/csubagio/alexa-language-shorthand.git"

@@ -2,6 +2,8 @@
 
 This utility defines a shorthand text format for authoring interaction models for the [Alexa Skills Kit](https://developer.amazon.com/en-US/alexa/alexa-skills-kit), and provides a command line compiler that converts that into the ASK JSON format, ready for pasting into the Alexa Developer Portal, or uploading with the ASK CLI tool.
 
+You can play with the syntax and see how the compiler works in the [Alexa Language Shorthand Sandbox](https://csubagio.github.io/alexa-language-shorthand/).
+
 > Note: this package is under development and is provided as is. It is very likely to change as it's used in production skills. Happy to hear about what people might need though, feel free to leave an issue or come find me in the Alexa Community Slack. - Chris.
 
 
