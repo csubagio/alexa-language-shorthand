@@ -105,13 +105,23 @@ export class Model {
   
   getRandomSlotValue(slotTypeName: string): string {
     if ( slotTypeName === 'AMAZON.NUMBER' ) {
+      // helpful to see a number substituted in here
       return '' + Math.floor( Math.random() * 100 );
+    }
+    
+    if ( slotTypeName.indexOf('AMAZON.') === 0 ) {
+      // can't know what should be in there, 
+      // so we'll just abbreviate a bit for illustration
+      return `{${slotTypeName.replace('AMAZON.','')}}`;
     }
     
     const slot = this.slotTypes[slotTypeName];
     if ( !slot ) {
+      // this is likely an input error
       return "BADTYPE";
     }
+    
+    // grab any value from the slot type
     return slot.getRandomValue();
   }
   
