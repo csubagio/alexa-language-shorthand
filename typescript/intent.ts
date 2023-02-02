@@ -44,6 +44,9 @@ export class Intent {
   
   constructor( readonly pc: ParserContext, readonly model: Model, readonly name: string ) {
     this.lineNumber = pc.lineNumber;
+    if (!this.name) {
+      pc.error('intent has no name!');
+    }
   }
   
   countAllUtteranceVariations() {
@@ -121,7 +124,7 @@ export class Intent {
     if ( this.utterances.length === 0 ) {
       // built in utterances are allowed to be empty, their definition 
       // comes from the ASK
-      if ( this.name.indexOf('AMAZON.') < 0 ) {
+      if ( this.name && (this.name.indexOf('AMAZON.') < 0) ) {
         this.pc.warnAt(this.lineNumber, `intent ${this.name} has no utterances`);
       }
     }
