@@ -10,7 +10,8 @@
   "scripts": {
     "test-watch": "ts-mocha ./test/*.spec.ts -w --watch-files '**/*.ts'",
     "test": "ts-mocha ./test/*.spec.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "develop-pages": "webpack -w"
   },
   "bin": {
     "alexa-language-shorthand": "javascript/index.js"
@@ -21,10 +22,19 @@
     "chalk": "^4.0.0"
   },
   "devDependencies": {
+    "@codemirror/commands": "^6.2.0",
+    "@codemirror/lang-javascript": "^6.1.2",
+    "@codemirror/language": "^6.4.0",
+    "@codemirror/state": "^6.2.0",
+    "@codemirror/view": "^6.7.3",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
+    "codemirror": "^6.0.1",
     "mocha": "^10.2.0",
+    "ts-loader": "^9.4.2",
     "ts-mocha": "^10.0.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   }
 }

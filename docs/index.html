@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Alexa Language Shorthand</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font: 10pt Helvetica, Arial, "Sans Serif";
+        overflow: hidden;
+      }
+      .error {
+        color: red;
+      }
+      #app {
+        display: flex;
+        flex-direction: column;
+        height: 100vh
+      }
+      #header {
+        flex-grow: 0;
+        padding: 8px;
+        text-align: center;
+        background-color: #343;
+        color: white;
+        border-bottom: 1px solid #232;
+      }
+      a {
+        color: #aaf;
+      }
+      a:visited {
+        color: #aaf;
+      }
+      a:hover {
+        color: #ccf;
+      }
+      h2 {
+        font-size: 10pt;
+        font-style: italic;
+        font-weight: lighter;
+        border-bottom: 1px solid #aaa;
+        padding: 2px 0;
+        background-color: #343;
+        color: #ccf;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 10;
+      }
+      .code {
+        width: 100%;
+        white-space: pre-wrap;
+        font-family: monospace;
+        line-height: 1.1;
+        font-size: 9pt;
+        flex-grow: 1;
+        overflow: scroll;
+        resize: none;
+      }
+      #mid {
+        display: flex;
+        flex-grow: 1;
+        height: 40%;
+      }
+      #output {
+        padding: 8px;
+      }
+      .panel {
+        width: 50%;
+        flex-grow: 1;
+        display:flex;
+        flex-direction: column;
+        position: relative;
+      }
+      #bottom {
+        flex-grow: 1;
+        height: 30%;
+        display: flex;
+        flex-direction: row;
+      }
+      #model {
+        color: #666;
+        background-color: #ddd;
+      }
+      #reference {
+        padding: 8px;
+        font-size: 10pt;
+        overflow: scroll;
+      }
+      #reference code {
+        display: block;
+        white-space: pre;
+        padding-left: 1em;
+        margin-top: 0.5em;
+        margin-bottom: 1.5em;
+        color: #449;
+      }
+      #reference b {
+        display: inline-block;
+        padding: 0.1em 0.5em;
+        background-color: #ddd;
+        color: #449;
+      }
+      #copy-button {
+        position: absolute;
+        top: 2.5em;
+        right: 2em;
+        border: 1px solid black;
+        background-color: white;
+        padding: 0.5em 1em;
+        border-radius: 0.25em;
+        cursor: pointer;
+        color: #999;
+        user-select: none;
+        box-shadow: 4px 4px 6px rgba(0,0,0,0.25);
+      }
+      #copy-button:hover {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="header">
+        <p>This is a sandbox for <a href="https://github.com/csubagio/alexa-language-shorthand">Alexa Language Shorthand</a>. You can edit the input on the left, and see how that translates into a model.</p>
+      </div>
+      
+      <div id="mid">
+        <div class="panel">
+          <h2>input .als file</h2>      
+          <div class="code" id='input'></div>
+        </div>
+        <div class="panel">
+          <h2>compiler console output</h2>
+          <div class="code" id='output'></div>
+        </div>
+      </div>
+
+      <div id="bottom">
+        <div class="panel">
+          <h2>ASK JSON interaction model</h2>
+          <div class="code" id='model'></div>
+          <div id="copy-button">copy</div>
+        </div>
+        <div class="panel">
+          <h2>reference</h2>
+          <div id="reference">Indenting matters! Indent after declaring an intent or slot type to add information to those things.
+<p>&nbsp;</p>
+<p>declare a new intent, followed by utterances</p>
+<code>INTENT intentName
+  this is an utterance
+</code>
+<p>add a slot to an utterance with <b>{}</b> define the type with <b>+</b></p>
+<code>INTENT getThings
+  I would like {count} {thing} please
+  + count as AMAZON.NUMBER
+  + thing as MyThings
+</code>
+<p>define a slot type with SLOTTYPE, followed by values. Separate synonyms with <b>|</b></p>
+<code>SLOTTYPE MyThings 
+  shoe | shoes | kicks
+  hat | hats | fedora | fedorae
+  pants | leg concealers
+</code>
+<p>define alternation in utterances using <b>|</b> too, limit it using <b>()</b></p>
+<code>INTENT greetings 
+  (hello | hi) there (bud|friend|guy|)
+</code>
+<p>to simplify repetition, define a substitution with <b>$</b></p>
+<code>$people = bud|friend|guy|dude
+INTENT greetings 
+  (hello | hi) there ($people|)
+  what's (up|happening) my ($people)
+</code>
+
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <script src="./bundle.js"></script>
+  </body>
+</html>
