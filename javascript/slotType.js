@@ -38,7 +38,7 @@ class SlotValue {
         return res;
     }
     getRandom() {
-        if (this.synonyms.length === 0 || Math.random() * this.synonyms.length < 1) {
+        if (this.synonyms.length === 0 || Math.random() * (1 + this.synonyms.length) < 1) {
             return this.name;
         }
         let i = Math.floor(Math.random() * this.synonyms.length);

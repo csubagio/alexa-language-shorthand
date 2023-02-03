@@ -1,6 +1,6 @@
 {
   "name": "alexa-language-shorthand",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Provides a utility that generates Alexa ASK language model files from an alternative compact notation",
   "homepage": "https://csubagio.github.io/alexa-language-shorthand/",
   "repository": {
@@ -19,14 +19,19 @@
   "author": "Chris Subagio",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.0.0"
+    "ask-sdk-model": "^1.44.0",
+    "chalk": "^4.0.0",
+    "command-line-args": "^5.2.1",
+    "command-line-usage": "^6.1.3"
   },
   "devDependencies": {
+    "@types/command-line-args": "^5.2.0",
     "@codemirror/commands": "^6.2.0",
     "@codemirror/lang-javascript": "^6.1.2",
     "@codemirror/language": "^6.4.0",
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.7.3",
+    "@types/command-line-usage": "^5.0.2",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
     "codemirror": "^6.0.1",

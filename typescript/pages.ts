@@ -44,11 +44,19 @@ console.error = (...args: any[]) => {
 }
 
 // function to build the input into the output
-function build(input: string) {
+let lastInput: string = '';
+function build(input?: string) {
+  if ( input ) {
+    lastInput = input;
+  }
   try {
     outputDiv.innerText = '';
-    const [model, pc] = parse(input);
-    modelDiv.innerText = JSON.stringify(model.toASKModel(), null, 2);
+    const [model, pc] = parse(lastInput);
+    if ( modelModeIsJSON ) {
+      modelDiv.innerText = JSON.stringify(model.toASKModel(), null, 2);
+    } else {
+      modelDiv.innerText = model.toTypeScript();
+    }
     pc.logErrors();
     pc.logWarnings();
     model.logSummary();
@@ -59,7 +67,7 @@ function build(input: string) {
 
 import {EditorView, basicSetup} from "codemirror";
 import {ViewPlugin, ViewUpdate, keymap} from "@codemirror/view";
-import {StreamLanguage, syntaxHighlighting} from "@codemirror/language";
+import {LanguageDescription, StreamLanguage, syntaxHighlighting} from "@codemirror/language";
 import {alsHighlightStyle, alsLang} from "./codeMirror";
 import {indentWithTab} from "@codemirror/commands";
 
@@ -101,3 +109,24 @@ copyButton.addEventListener('click', () => {
     copyButton.innerText = 'copy';
   }, 3000);
 });
+
+let modelModeIsJSON = true;
+function setModelMode( json: boolean ) {
+  modelModeIsJSON = json;
+  if ( json ) {
+    jsonButton.classList.add('header-button-selected');
+    typescriptButton.classList.remove('header-button-selected');
+  } else {
+    jsonButton.classList.remove('header-button-selected');
+    typescriptButton.classList.add('header-button-selected');
+  }
+  build();
+}
+
+const jsonButton = document.getElementById('json-button') as HTMLDivElement;
+jsonButton.addEventListener('click', () => setModelMode(true) );
+
+const typescriptButton = document.getElementById('typescript-button') as HTMLDivElement;
+typescriptButton.addEventListener('click', () => setModelMode(false) );
+
+setModelMode( true );

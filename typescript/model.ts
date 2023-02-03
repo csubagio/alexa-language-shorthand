@@ -2,6 +2,7 @@ import chalk from "chalk";
 import {ASKModel} from "./askModel";
 import {Intent} from "./intent";
 import {ParserContext} from "./parserContext";
+import * as requestParserTemplate from "./requestParser";
 import {SlotType} from "./slotType";
 
 const errorInvocationString = "You haven't set INVOCATION!";
@@ -125,6 +126,10 @@ export class Model {
     return slot.getRandomValue();
   }
   
+  /**
+   * Generates the Alexa interaction model JSON, suitable for pasting into
+   * the developer portal, or inclusion in an ask-cli based project
+   */
   toASKModel(): ASKModel {
     let model: ASKModel = {
       interactionModel: {
@@ -160,5 +165,119 @@ export class Model {
     }
     
     return model;
+  }
+  
+  /**
+   * Generates a TypeScript file that exports interfaces based on the 
+   * interaction model, along with a function to parse incoming requests
+   */
+  toTypeScript(): string {
+    const file: string[] = [];
+
+    // inject the boilerplate
+    file.push( requestParserTemplate.pre + '\n' );
+    
+    // for each slot type we produce an enum 
+    // and an dictionary of values for iteration
+    for ( const slotTypeName in this.slotTypes ) {
+      const values: Record<string, string[]> = {};
+      const slotType = this.slotTypes[slotTypeName];
+      file.push(`export enum ${slotTypeName} {`);
+      for ( const valueName in slotType.values ) {
+        const value = slotType.values[valueName];
+        const enumName = value.name.replace(/\s/g, "_");
+        file.push(`  ${enumName} = "${value.name}",`);
+        values[value.name] = value.synonyms;
+      }
+      file.push(`}\n`);
+      file.push(`export const ${slotTypeName}Values = ${JSON.stringify(values,null,2)};\n`);
+    }
+    
+    // we'll collect an object to describe how to parse 
+    // slots for the runtime parser
+    const intentSlotMapping: string[] = [];
+
+    // for each intent we produce a type
+    const intentTypes: string[] = [];
+    for ( const intentName in this.intents ) {
+      const intent = this.intents[intentName];
+      const typename = `${intentName}`.replace(/\./g, '_');
+      const slotsTypename = `${typename}Slots`;
+      const slotMapping: string[] = [];
+      
+      /*
+      file.push(`interface ${slotsTypename} {`);
+      for ( let slotName in intent.slotsTypes ) {
+        const slotType = intent.slotsTypes[slotName];
+        let type = slotType.type;
+        if ( type.indexOf('AMAZON.') === 0 ) {
+          // built-ins come in as generic strings
+          type = 'string';
+        } else {
+          slotMapping.push(`    ${slotName}: ${type}Values`);
+        }
+        file.push(`  ${slotName}?: Slot<${type}>;`);
+      }
+      file.push(`}\n`);
+      */
+
+      intentTypes.push( typename );
+      file.push(`export interface ${typename} {`);
+      file.push(`  name: "${intentName}";`);
+      file.push(`  request: ASK.Request;`);
+      //file.push(`  slots: ${slotsTypename};`);
+      file.push(`  slots: {`);
+
+      for ( let slotName in intent.slotsTypes ) {
+        const slotType = intent.slotsTypes[slotName];
+        let type = slotType.type;
+        if ( type.indexOf('AMAZON.') === 0 ) {
+          // built-ins come in as generic strings
+          type = 'string';
+        } else {
+          slotMapping.push(`    ${slotName}: ${type}Values`);
+        }
+        file.push(`    ${slotName}?: Slot<${type}>;`);
+      }
+      
+      file.push(`  }`);
+      
+      file.push(`}\n`);
+
+
+      if ( intentName.indexOf('AMAZON.') < 0 && slotMapping.length > 0 ) {
+        let mapping: string[] = [];
+        mapping.push(`  ${intentName}:{`);
+        mapping.push(slotMapping.join(',\n'));
+        mapping.push(`  }`);
+        intentSlotMapping.push(mapping.join('\n'));
+      }
+    }
+    
+    // add a set of dummy types to indicate unrecognized input
+    for ( const typename of ['_NotIntent', '_InvalidInput'] ) {
+      intentTypes.push( typename );
+      file.push(`interface ${typename} {`);
+      file.push(`  name: "${typename}";`);
+      file.push(`  request: ASK.Request;`);
+      file.push(`  slots: Record<string,Slot<string>>;`);
+      file.push(`}\n`);
+    }
+ 
+    // splice in the intent info at the end
+    file.push('const intentSlotMapping: IntentSlotMapping = {');
+    file.push( intentSlotMapping.join(',\n') );
+    file.push('};\n');
+    
+    // then a union type to represent any of them
+    // note: we can still end up returning unrecognized intents from 
+    // the actual parsing function, but we intentionally omit that 
+    // from the type definition so that auto complete functions 
+    // expect us to pick from a fixed set of names.
+    file.push( `type Intents = ${intentTypes.join(' | ')};\n`);
+    
+    file.push( requestParserTemplate.post );
+
+    return file.join('\n');
   }
 }

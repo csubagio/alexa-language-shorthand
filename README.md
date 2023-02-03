@@ -31,13 +31,13 @@ INTENT FavoriteColor
   + aColor as Color
 ```
 
-You can compile this into an `example.json` in the same directory by invoking the compiler:
+You can compile this into an `example.json` and a matching `exampleModel.json` in the same directory by invoking the compiler:
 
 ```sh
 alexa-language-shorthand example.als
 ```
 
-Doing so will produce the JSON file, an also console output that describes what was parsed. Up to 5 randomly selected examples are generated for every utterance with alternation, to help visualize any permutation anomalies. 
+Doing so will produce the JSON file, a TypeScript file, and also console output that describes what was parsed. Up to 5 randomly selected examples are generated for every utterance with alternation, to help visualize any permutation anomalies. 
 
 ```sh
 converting file: ./example.als
@@ -59,10 +59,11 @@ INTENT FavoriteColor, 4 utterances
 wrote output file: ./example.json
 ```
 
-
 If you're working with the [Alexa developer portal](https://developer.amazon.com/alexa/console/ask), you can copy paste the contents of the generated JSON file into the JSON editor.
 
 If you're using the [ASK CLI tools](https://developer.amazon.com/en-US/docs/alexa/smapi/quick-start-alexa-skills-kit-command-line-interface.html), the simplest thing to do it store your `.als` files alongside the interaction model JSON files in the `./skill-package/interactionModels/custom` folder, and then compile them before doing an `ask deploy`. 
+
+For more information on compiler options, see the command line help with `alexa-language-shorthand --help`
 
 ### White space
 ALS is a white space dependent format, much like a python or YAML file. Indented lines implictly relate to the first line above them that has less indentation. You can use spaces or tabs for indentation, as long as you're consistent from line to line.
@@ -229,3 +230,7 @@ INTENT Hello
   what is (up|going on)
 ```
 
+## TypeScript Model
+Alongside the ASK JSON model, the compiler also produces a TypeScript file that exports each of your slot types as enums, and your intents as interfaces. It also provides a `parseAlexaRequest` function that will convert an ASK SDK Request object into one of these interfaces, giving you the benefit of autocomplete in supporting editors, as well as compile time checking of names and values from your language model.
+
+See [test/skirmishGame.ts](test/skirmishGame.ts) in this repository for an example of what that can look like.
