@@ -4,7 +4,11 @@
 
 import * as ASK from 'ask-sdk-model';
 import assert from 'assert';
-import * as skirmish from './skirmishModel';
+import {parse} from '../typescript/parser';
+import fs from 'fs';
+import path from 'path';
+import decache from 'decache';
+
 
 function requestWithIntent( name: string, slots: Record<string, string|string[]> ): ASK.IntentRequest {
   const reqSlots: Record<string, ASK.Slot> = {};
@@ -50,6 +54,16 @@ function requestWithIntent( name: string, slots: Record<string, string|string[]>
 
 
 describe( 'skirmish generated typescript', () => {
+  let skirmish;
+  
+  before( () => {
+    const input = fs.readFileSync(path.join(__dirname, 'skirmish.als'), 'utf8');
+    const [model, pc] = parse(input);
+    fs.writeFileSync(path.join(__dirname,'skirmishModel.ts'), model.toTypeScript());
+    decache('./skirmishModel');
+    skirmish = require('./skirmishModel');
+  });
+  
   it ( 'should process a fallback intent', () => {
     const request = requestWithIntent('AMAZON.FallbackIntent', {});
     const result = skirmish.parseAlexaRequest(request);

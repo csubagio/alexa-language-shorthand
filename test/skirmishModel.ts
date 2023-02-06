@@ -26,6 +26,8 @@ interface GenericIntent {
 
 type IntentSlotMapping = Record<string, Record< string, SlotValues > >;
 
+export const Invocation = "skirmish map";
+
 export enum UnitType {
   wizard = "wizard",
   horse = "horse",
@@ -329,10 +331,11 @@ export function parseAlexaRequest( request: ASK.Request ): Intents {
   // we can uniformly convert any intent into our format
   // which will conform to the types we've defined
   // when they're recognized
-  let result = {
+  const slots: Record<string, Slot<string>> = {};
+  const result: Intents = {
     name: request.intent.name,
     request,
-    slots: {}
+    slots
   } as any as Intents;
   
   if ( request.intent.slots ) {
@@ -340,7 +343,7 @@ export function parseAlexaRequest( request: ASK.Request ): Intents {
     
     for ( const slotName in request.intent.slots ) {
       const slot: ASK.Slot = request.intent.slots[slotName];
-      result.slots[slotName] = {
+      slots[slotName] = {
         value: undefined,
         raw: slot.value,
         slot,
@@ -362,16 +365,18 @@ export function parseAlexaRequest( request: ASK.Request ): Intents {
         // is it the top level slot value?
         let test = (slot.value || "").toLowerCase();
         if ( slot.value && valueKeys.indexOf(test) >= 0 ) {
-          result.slots[slotName].value = valueMap[test];
+          slots[slotName].value = valueMap[test];
         } else {
           // no? dig into the resolution authorities then
           if ( slot.resolutions && slot.resolutions.resolutionsPerAuthority ) {
             slot.resolutions.resolutionsPerAuthority.forEach( auth => {
-              for ( const authVal of auth.values ) {
-                test = authVal.value.name.toLowerCase();
-                if ( valueKeys.indexOf(test) >= 0 ) {
-                  result.slots[slotName].value = valueMap[test];
-                  break;
+              if ( auth.values ) {
+                for ( const authVal of auth.values ) {
+                  test = authVal.value.name.toLowerCase();
+                  if ( valueKeys.indexOf(test) >= 0 ) {
+                    slots[slotName].value = valueMap[test];
+                    break;
+                  }
                 }
               }
             });

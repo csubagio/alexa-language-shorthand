@@ -134,7 +134,7 @@ export class Model {
     let model: ASKModel = {
       interactionModel: {
         languageModel: {
-          invocationName: this.invocationName || errorInvocationString,
+          invocationName: (this.invocationName || errorInvocationString).toLocaleLowerCase(), // note: these must always be lower case
           intents: [],
           types: [],
         }
@@ -176,6 +176,8 @@ export class Model {
 
     // inject the boilerplate
     file.push( requestParserTemplate.pre + '\n' );
+    
+    file.push( `export const Invocation = "${this.invocationName}";\n`);
     
     // for each slot type we produce an enum 
     // and an dictionary of values for iteration

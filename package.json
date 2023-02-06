@@ -1,6 +1,6 @@
 {
   "name": "alexa-language-shorthand",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Provides a utility that generates Alexa ASK language model files from an alternative compact notation",
   "homepage": "https://csubagio.github.io/alexa-language-shorthand/",
   "repository": {
@@ -10,7 +10,7 @@
   "scripts": {
     "test-watch": "ts-mocha ./test/*.spec.ts -w --watch-files '**/*.ts'",
     "test": "ts-mocha ./test/*.spec.ts",
-    "build": "tsc",
+    "build": "tsc && webpack",
     "develop-pages": "webpack -w"
   },
   "bin": {
@@ -25,16 +25,17 @@
     "command-line-usage": "^6.1.3"
   },
   "devDependencies": {
-    "@types/command-line-args": "^5.2.0",
     "@codemirror/commands": "^6.2.0",
     "@codemirror/lang-javascript": "^6.1.2",
     "@codemirror/language": "^6.4.0",
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.7.3",
+    "@types/command-line-args": "^5.2.0",
     "@types/command-line-usage": "^5.0.2",
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
     "codemirror": "^6.0.1",
+    "decache": "^4.6.1",
     "mocha": "^10.2.0",
     "ts-loader": "^9.4.2",
     "ts-mocha": "^10.0.0",

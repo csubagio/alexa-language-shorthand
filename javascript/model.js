@@ -140,7 +140,7 @@ class Model {
         let model = {
             interactionModel: {
                 languageModel: {
-                    invocationName: this.invocationName || errorInvocationString,
+                    invocationName: (this.invocationName || errorInvocationString).toLocaleLowerCase(),
                     intents: [],
                     types: [],
                 }
@@ -175,6 +175,7 @@ class Model {
         const file = [];
         // inject the boilerplate
         file.push(requestParserTemplate.pre + '\n');
+        file.push(`export const Invocation = "${this.invocationName}";\n`);
         // for each slot type we produce an enum 
         // and an dictionary of values for iteration
         for (const slotTypeName in this.slotTypes) {
