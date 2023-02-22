@@ -69,11 +69,19 @@ function parseAlexaRequest(request) {
                     // no? dig into the resolution authorities then
                     if (slot.resolutions && slot.resolutions.resolutionsPerAuthority) {
                         slot.resolutions.resolutionsPerAuthority.forEach(auth => {
+                            if (auth.status.code !== "ER_SUCCESS_MATCH") {
+                                return;
+                            }
                             if (auth.values) {
+                                // take the most confident ID by default
+                                slots[slotName].id = auth.values[0].value.id;
+                                // but search for a bingo match when we're snapping
+                                // to custom slot type values
                                 for (const authVal of auth.values) {
                                     test = authVal.value.name.toLowerCase();
                                     if (valueKeys.indexOf(test) >= 0) {
                                         slots[slotName].value = valueMap[test];
+                                        slots[slotName].id = authVal.value.id;
                                         break;
                                     }
                                 }
@@ -103,6 +111,9 @@ interface Slot<ValueType> {
 
   /** When this slot is a custom slot type, this is explicitly that type's generated enum and will be undefined if any other value is recognized */
   value?: ValueType;
+  
+  /** When we have values in the slot resolvers, this will be the ID of the most confident value */
+  id?: string;
   
   /** helper that wraps parsing the raw value as number, returns undefined if the slot does not contain one */
   asNumber: () => number | undefined;
@@ -172,11 +183,18 @@ export function parseAlexaRequest( request: ASK.Request ): Intents {
           // no? dig into the resolution authorities then
           if ( slot.resolutions && slot.resolutions.resolutionsPerAuthority ) {
             slot.resolutions.resolutionsPerAuthority.forEach( auth => {
+              if( auth.status.code !== "ER_SUCCESS_MATCH" ) { return }
               if ( auth.values ) {
+                // take the most confident ID by default
+                slots[slotName].id = auth.values[0].value.id;
+
+                // but search for a bingo match when we're snapping
+                // to custom slot type values
                 for ( const authVal of auth.values ) {
                   test = authVal.value.name.toLowerCase();
                   if ( valueKeys.indexOf(test) >= 0 ) {
                     slots[slotName].value = valueMap[test];
+                    slots[slotName].id = authVal.value.id;
                     break;
                   }
                 }
